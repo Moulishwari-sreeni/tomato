@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tomato 🍅 — Food, Fast & Fresh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo" onclick="showPage('home')">🍅 tomato</a>
+    <div class="nav-links">
+      <a href="#" onclick="showPage('home')">Home</a>
+      <a href="#" onclick="showPage('menu')">Menu</a>
+      <a href="#" onclick="showPage('about')">About</a>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="login-btn" id="loginBtn" onclick="toggleLoginModal()">Sign In</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="homePage" class="page active">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">⚡ 30-min delivery guarantee</div>
+      <h1>Fresh Food,<br/><em>Your Doorstep.</em></h1>
+      <p>Discover 500+ restaurants, 10,000+ dishes — curated for Chennai's finest taste.</p>
+      <div class="hero-search">
+        <input type="text" placeholder="Search dishes, restaurants..." id="heroSearch" />
+        <button onclick="doSearch()">Search</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>500+</strong><span>Restaurants</span></div>
+        <div class="stat"><strong>10k+</strong><span>Dishes</span></div>
+        <div class="stat"><strong>30min</strong><span>Avg Delivery</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="food-orbit">
+        <div class="orbit-ring ring1"></div>
+        <div class="orbit-ring ring2"></div>
+        <div class="center-plate">🍕</div>
+        <div class="orbit-item oi1">🍔</div>
+        <div class="orbit-item oi2">🍜</div>
+        <div class="orbit-item oi3">🍣</div>
+        <div class="orbit-item oi4">🥗</div>
+        <div class="orbit-item oi5">🍦</div>
+        <div class="orbit-item oi6">🌮</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories-section">
+    <h2 class="section-title">What's on your <em>mind?</em></h2>
+    <div class="categories-scroll">
+      <div class="cat-chip active" onclick="filterCat('all', this)">🍽️ All</div>
+      <div class="cat-chip" onclick="filterCat('pizza', this)">🍕 Pizza</div>
+      <div class="cat-chip" onclick="filterCat('burger', this)">🍔 Burgers</div>
+      <div class="cat-chip" onclick="filterCat('biryani', this)">🍚 Biryani</div>
+      <div class="cat-chip" onclick="filterCat('noodles', this)">🍜 Noodles</div>
+      <div class="cat-chip" onclick="filterCat('sushi', this)">🍣 Sushi</div>
+      <div class="cat-chip" onclick="filterCat('salad', this)">🥗 Salads</div>
+      <div class="cat-chip" onclick="filterCat('dessert', this)">🍰 Desserts</div>
+      <div class="cat-chip" onclick="filterCat('drinks', this)">🥤 Drinks</div>
+      <div class="cat-chip" onclick="filterCat('sandwich', this)">🥪 Sandwiches</div>
+      <div class="cat-chip" onclick="filterCat('tacos', this)">🌮 Tacos</div>
+    </div>
+  </section>
+
+  <!-- FEATURED -->
+  <section class="featured-section">
+    <div class="section-header">
+      <h2 class="section-title">Trending <em>Now</em></h2>
+      <a href="#" onclick="showPage('menu')" class="see-all">See all →</a>
+    </div>
+    <div class="food-grid" id="featuredGrid"></div>
+  </section>
+
+  <!-- OFFERS BANNER -->
+  <section class="offers-section">
+    <div class="offer-card oc1">
+      <div class="offer-text">
+        <div class="offer-tag">LIMITED</div>
+        <h3>50% OFF<br/>First Order</h3>
+        <p>Use code: <strong>TOMATO50</strong></p>
+        <button onclick="showPage('menu')">Order Now</button>
+      </div>
+      <div class="offer-emoji">🍕</div>
+    </div>
+    <div class="offer-card oc2">
+      <div class="offer-text">
+        <div class="offer-tag">WEEKEND</div>
+        <h3>Free Delivery<br/>All Weekend</h3>
+        <p>No minimum order</p>
+        <button onclick="showPage('menu')">Explore</button>
+      </div>
+      <div class="offer-emoji">🛵</div>
+    </div>
+  </section>
+</div>
+
+<!-- MENU PAGE -->
+<div id="menuPage" class="page">
+  <div class="menu-container">
+    <div class="menu-header">
+      <h1>Our <em>Menu</em></h1>
+      <div class="menu-controls">
+        <input type="text" placeholder="Search menu..." id="menuSearch" oninput="searchMenu()" />
+        <select id="sortMenu" onchange="sortMenuItems()">
+          <option value="default">Sort by</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+    </div>
+    <div class="menu-cats">
+      <div class="cat-chip active" onclick="filterCat('all', this)">🍽️ All</div>
+      <div class="cat-chip" onclick="filterCat('pizza', this)">🍕 Pizza</div>
+      <div class="cat-chip" onclick="filterCat('burger', this)">🍔 Burgers</div>
+      <div class="cat-chip" onclick="filterCat('biryani', this)">🍚 Biryani</div>
+      <div class="cat-chip" onclick="filterCat('noodles', this)">🍜 Noodles</div>
+      <div class="cat-chip" onclick="filterCat('sushi', this)">🍣 Sushi</div>
+      <div class="cat-chip" onclick="filterCat('salad', this)">🥗 Salads</div>
+      <div class="cat-chip" onclick="filterCat('dessert', this)">🍰 Desserts</div>
+      <div class="cat-chip" onclick="filterCat('drinks', this)">🥤 Drinks</div>
+      <div class="cat-chip" onclick="filterCat('sandwich', this)">🥪 Sandwiches</div>
+      <div class="cat-chip" onclick="filterCat('tacos', this)">🌮 Tacos</div>
+    </div>
+    <div class="food-grid" id="menuGrid"></div>
+  </div>
+</div>
+
+<!-- ABOUT PAGE -->
+<div id="aboutPage" class="page">
+  <div class="about-container">
+    <div class="about-hero">
+      <h1>About <em>Tomato</em> 🍅</h1>
+      <p>We're on a mission to deliver the freshest, most delicious food right to your door — faster than ever before.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-icon">🚀</div>
+        <h3>Lightning Fast</h3>
+        <p>Average delivery time of just 30 minutes across Chennai. Our fleet is always ready.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-icon">👨‍🍳</div>
+        <h3>Top Chefs</h3>
+        <p>Partnered with 500+ premium restaurants and home kitchens curated by our food experts.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-icon">🌿</div>
+        <h3>Fresh Ingredients</h3>
+        <p>Every meal is prepared fresh to order. No frozen shortcuts. Ever.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-icon">🔒</div>
+        <h3>Secure Ordering</h3>
+        <p>Bank-grade encryption and real-time security monitoring on every transaction.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h2>Your Cart 🛒</h2>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="empty-icon">🛒</div>
+      <p>Your cart is empty</p>
+      <button onclick="toggleCart(); showPage('menu')">Browse Menu</button>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="bill-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+    <div class="bill-row"><span>Taxes (5%)</span><span id="taxes">₹0</span></div>
+    <div class="bill-row"><span>Delivery</span><span id="delivery">₹40</span></div>
+    <div class="bill-row total"><span>Total</span><span id="total">₹0</span></div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginOverlay" onclick="closeLoginModal()"></div>
+<div class="modal" id="loginModal">
+  <button class="modal-close" onclick="closeLoginModal()">✕</button>
+  <div class="modal-tabs">
+    <button class="tab-btn active" onclick="switchTab('login', this)">Sign In</button>
+    <button class="tab-btn" onclick="switchTab('signup', this)">Sign Up</button>
+  </div>
+  <div id="loginTab">
+    <h2>Welcome back 👋</h2>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" />
+    </div>
+    <div class="form-error" id="loginError"></div>
+    <button class="submit-btn" onclick="doLogin()">Sign In</button>
+  </div>
+  <div id="signupTab" style="display:none">
+    <h2>Join Tomato 🍅</h2>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="signupName" placeholder="John Doe" />
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="signupEmail" placeholder="you@example.com" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="signupPassword" placeholder="••••••••" />
+    </div>
+    <div class="form-error" id="signupError"></div>
+    <button class="submit-btn" onclick="doSignup()">Create Account</button>
+  </div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+<div class="modal-overlay" id="successOverlay"></div>
+<div class="modal success-modal" id="successModal" style="display:none">
+  <div class="success-icon">🎉</div>
+  <h2>Order Placed!</h2>
+  <p>Your food is being prepared. ETA: <strong>25-30 mins</strong></p>
+  <div class="order-id">Order #TOM<span id="orderId"></span></div>
+  <button class="submit-btn" onclick="closeSuccess()">Track Order</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
