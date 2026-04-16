@@ -297,3 +297,23 @@ function showToast(msg) {
 // document.addEventListener('click', (e) => {
 //   sendToSOC({ ip:'client', path: window.location.href, method:'CLICK', userAgent: navigator.userAgent, ts: Date.now() });
 // });
+// ===== SOC INTEGRATION (ACTIVE) =====
+function sendToSOC() {
+  fetch("https://soc-tool.onrender.com/ingest", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      ip: "client-ip",
+      method: "GET",
+      path: window.location.pathname + window.location.search,
+      user_agent: navigator.userAgent,
+      params: {},
+      form_data: {}
+    })
+  }).catch(err => console.log("SOC error:", err));
+}
+
+// Send data on page load
+document.addEventListener('DOMContentLoaded', sendToSOC);
