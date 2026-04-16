@@ -330,3 +330,18 @@ window.simulateAttack = function(type) {
     }
   }
 };
+
+// ===== SOC TEST FUNCTIONS =====
+window.simulateAttack = function(type) {
+  if (type === "xss") {
+    sendToSOC("/?q=<script>alert(1)</script>");
+  }
+  if (type === "sqli") {
+    sendToSOC("/?id=1' OR 1=1");
+  }
+  if (type === "ddos") {
+    for (let i = 0; i < 50; i++) {
+      sendToSOC("/flood" + i);
+    }
+  }
+};
