@@ -298,7 +298,9 @@ function showToast(msg) {
 //   sendToSOC({ ip:'client', path: window.location.href, method:'CLICK', userAgent: navigator.userAgent, ts: Date.now() });
 // });
 // ===== SOC INTEGRATION (ACTIVE) =====
-function sendToSOC() {
+function sendToSOC(customPath = null) {
+  const path = customPath || (window.location.pathname + window.location.search);
+
   fetch("https://soc-tool.onrender.com/ingest", {
     method: "POST",
     headers: {
@@ -307,13 +309,24 @@ function sendToSOC() {
     body: JSON.stringify({
       ip: "client-ip",
       method: "GET",
-      path: window.location.pathname + window.location.search,
-      user_agent: navigator.userAgent,
-      params: {},
-      form_data: {}
+      path: path,
+      user_agent: navigator.userAgent
     })
   }).catch(err => console.log("SOC error:", err));
 }
 
-// Send data on page load
-document.addEventListener('DOMContentLoaded', sendToSOC);
+
+
+window.simulateAttack = function(type) {
+  if (type === "xss") {
+    sendToSOC("/?q=<script>alert(1)</script>");
+  }
+  if (type === "sqli") {
+    sendToSOC("/?id=1' OR 1=1");
+  }
+  if (type === "ddos") {
+    for (let i = 0; i < 50; i++) {
+      sendToSOC("/flood" + i);
+    }
+  }
+};
