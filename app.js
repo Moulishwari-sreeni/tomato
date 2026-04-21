@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
   updateAuthUI();
 
-  sentdToSOC("/home");
+  sendToSOC("/home");
 });
 
 // ===== PAGE ROUTING =====
@@ -77,6 +77,7 @@ function renderCard(item) {
 
 // ===== CART =====
 function updateCart(id, delta) {
+  sendToSOC("/cart/update/" + id);
   const item = FOODS.find(f => f.id === id);
   if (!item) return;
   if (!cart[id]) cart[id] = { ...item, qty: 0 };
@@ -216,7 +217,10 @@ function doLogin() {
   const password = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
   if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; return; }
-  const user = allUsers.find(u => u.email === email && u.password === password);
+  
+  sendToSOC("/login", "POST");
+
+const user = allUsers.find(u => u.email === email && u.password === password);
   if (!user) { errEl.textContent = 'Invalid email or password.'; return; }
   currentUser = user;
   localStorage.setItem('tomatoUser', JSON.stringify(user));
@@ -316,22 +320,6 @@ function sendToSOC(path, method = "GET") {
   .then(() => console.log("SOC sent"))
   .catch(err => console.log("SOC error:", err));
 }
-
-
-
-window.simulateAttack = function(type) {
-  if (type === "xss") {
-    sendToSOC("/?q=<script>alert(1)</script>");
-  }
-  if (type === "sqli") {
-    sendToSOC("/?id=1' OR 1=1");
-  }
-  if (type === "ddos") {
-    for (let i = 0; i < 50; i++) {
-      sendToSOC("/flood" + i);
-    }
-  }
-};
 
 // ===== SOC TEST FUNCTIONS =====
 window.simulateAttack = function(type) {
