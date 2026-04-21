@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderMenu();
   updateCartUI();
   updateAuthUI();
+
+  sentdToSOC("/home");
 });
 
 // ===== PAGE ROUTING =====
@@ -298,21 +300,21 @@ function showToast(msg) {
 //   sendToSOC({ ip:'client', path: window.location.href, method:'CLICK', userAgent: navigator.userAgent, ts: Date.now() });
 // });
 // ===== SOC INTEGRATION (ACTIVE) =====
-function sendToSOC(customPath = null) {
-  const path = customPath || (window.location.pathname + window.location.search);
-
-  fetch("https://soc-tool.onrender.com/ingest", {
+function sendToSOC(path, method = "GET") {
+  fetch("https://soc-tool1.onrender.com/ingest", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      ip: "client-ip",
-      method: "GET",
+      ip: "client",
       path: path,
+      method: method,
       user_agent: navigator.userAgent
     })
-  }).catch(err => console.log("SOC error:", err));
+  })
+  .then(() => console.log("SOC sent"))
+  .catch(err => console.log("SOC error:", err));
 }
 
 
